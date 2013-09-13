@@ -1,6 +1,6 @@
 <?php
 
-$config = json_decode(file_get_contents("../cfg/webservice.json"));
+$config = json_decode(file_get_contents("../cfg/webservice.json"), true);
 
 $f3 = require($config['f3']); // Replace with the path of your F3 install
 $f3->set('DEBUG', true);
