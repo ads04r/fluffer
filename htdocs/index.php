@@ -10,7 +10,7 @@ $f3->set('page_template', "");
 
 function getSpacesWithBoundingBox($keyword, $lat1, $lon1, $lat2, $lon2)
 {
-	global config;
+	global $config;
 
 	if($lat1 > $lat2)
 	{
@@ -69,7 +69,7 @@ function getSpacesWithBoundingBox($keyword, $lat1, $lon1, $lat2, $lon2)
 
 function getSpaces($keyword)
 {
-	global config;
+	global $config;
 
 	$link = pg_connect("host=marbles.ecs.soton.ac.uk dbname=hampshire user=ash password=password");
 	$result = pg_exec($link, "select planet_osm_polygon.name, ST_AsGeoJSON(ST_Transform(way, 4326)) as json from fluff_keywords, planet_osm_polygon where fluff_keywords.osm_id=planet_osm_polygon.osm_id and keyword='" . $keyword . "';");
