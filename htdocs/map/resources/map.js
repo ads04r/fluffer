@@ -21,7 +21,6 @@ function initMap(self) {
 
     var emptyFeatureCollection = { type: "FeatureCollection", features: [] };
 
-    self.keywords = ['trees', 'water']
     self.layers = {}
 
     $.each(self.keywords, function(index, keyword) {
@@ -55,12 +54,18 @@ $(document).ready(function() {
 
 	var self = this;  // the HTMLDocument
 
-	self.map = initMap(self);
+    $.get('/places/keywords/keywords.json', bb, function(data) {
+        self.keywords = data;
 
-    updateMap(self);
+        self.map = initMap(self);
 
-	self.map.on('moveend', function(e) {
         updateMap(self);
-	})
+
+        self.map.on('moveend', function(e) {
+            updateMap(self);
+        });
+    }, "json");
+
+
 });
 
