@@ -28,7 +28,7 @@ function initMap(self) {
             style: {color: "#0000ff"},
             onEachFeature: function(feature, layer) {
             }
-        }).addTo(map);
+        });
     });
 
     L.control.layers(baseMaps, self.layers).addTo(map);
