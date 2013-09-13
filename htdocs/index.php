@@ -31,8 +31,6 @@ function getSpacesWithBoundingBox($keyword, $lat1, $lon1, $lat2, $lon2)
 
 	$query = "select name, ST_AsGeoJSON(way) as json from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where way && ST_MakeEnvelope(" . $minlon . ", " . $minlat . ", " . $maxlon . ", " . $maxlat . ", 4326);";
 
-	print($query . "\n\n");
-
 	$link = pg_connect("host=" . $config['database']['host'] . " dbname=" . $config['database']['database'] . " user=" . $config['database']['username'] . " password=" . $config['database']['password']);
 	$result = pg_exec($link, $query);
 	$numrows = pg_numrows($result);
@@ -127,8 +125,6 @@ function render($f3, $params)
 	{
 		$bb = array();
 	}
-
-	// sw_lon,sw_lat,ne_lon,ne_lat
 
 	$command = $params['command'];
 	$param = $params['param'];
