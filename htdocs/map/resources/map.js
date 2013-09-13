@@ -23,7 +23,7 @@ function initMap(self) {
 
     self.keywords = ['trees', 'water']
 
-    $.each(keywords, function(index, keyword) {
+    $.each(self.keywords, function(index, keyword) {
         self.layers[keyword] = L.geoJson(emptyFeatureCollection, {
             style: {color: "#0000ff"},
             onEachFeature: function(feature, layer) {
@@ -40,7 +40,7 @@ function updateMap(self) {
 
     var bb = self.map.getBounds().toBBoxString();
 
-    $.each(keywords, function(index, keyword) {
+    $.each(self.keywords, function(index, keyword) {
         $.post('/places/areas/' + keyword + '.json', bb, function(data) {
                 self.layers[keyword].clearLayers();
                 self.layers[keyword].addData(data);
