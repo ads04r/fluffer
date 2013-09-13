@@ -22,6 +22,7 @@ function initMap(self) {
     var emptyFeatureCollection = { type: "FeatureCollection", features: [] };
 
     self.keywords = ['trees', 'water']
+    self.layers = {}
 
     $.each(self.keywords, function(index, keyword) {
         self.layers[keyword] = L.geoJson(emptyFeatureCollection, {
