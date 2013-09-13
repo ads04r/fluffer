@@ -1,6 +1,8 @@
 <?php
 
-$f3 = require("fatfree/lib/base.php"); // Replace with the path of your F3 install
+$config = json_decode(file_get_contents("../cfg/webservice.json"));
+
+$f3 = require($config['f3']); // Replace with the path of your F3 install
 $f3->set('DEBUG', true);
 $f3->set('page_template', "");
 
@@ -29,7 +31,7 @@ function getSpacesWithBoundingBox($keyword, $lat1, $lon1, $lat2, $lon2)
 
 	print($query . "\n\n");
 
-	$link = pg_connect("host=marbles.ecs.soton.ac.uk dbname=hampshire user=ash password=password");
+	$link = pg_connect("host=" . $config['database']['host'] . " dbname=" . $config['database']['database'] . " user=" . $config['database']['username'] . " password=" . $config['database']['password']);
 	$result = pg_exec($link, $query);
 	$numrows = pg_numrows($result);
 

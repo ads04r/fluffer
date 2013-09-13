@@ -1,0 +1,9 @@
+{
+	"database":{
+		"host":"host",
+		"username":"username",
+		"password":"password",
+		"database":"database"
+	},
+	"f3":"/path/to/f3.php"
+}
