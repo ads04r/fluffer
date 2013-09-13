@@ -54,7 +54,7 @@ $(document).ready(function() {
 
 	var self = this;  // the HTMLDocument
 
-    $.get('/places/keywords/keywords.json', bb, function(data) {
+    $.get('/places/keywords/keywords.json', function(data) {
         self.keywords = data;
 
         self.map = initMap(self);
