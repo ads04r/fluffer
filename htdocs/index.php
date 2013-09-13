@@ -103,6 +103,26 @@ function getSpaces($keyword)
 	return($list);
 }
 
+function getKeywords()
+{
+	global $config;
+
+	$query = "select distinct keyword from fluff_keywords;";
+	$link = pg_connect("host=" . $config['database']['host'] . " dbname=" . $config['database']['database'] . " user=" . $config['database']['username'] . " password=" . $config['database']['password']);
+	$result = pg_exec($link, $query);
+	$numrows = pg_numrows($result);
+
+	$keywords = array();
+
+	for($ri = 0; $ri < $numrows; $ri++)
+	{
+		$row = pg_fetch_array($result, $ri);
+		$keywords[] = $row['keyword'];
+	}
+
+	return($keywords);
+}
+
 // Render Function
 
 function render($f3, $params)
@@ -137,6 +157,10 @@ function render($f3, $params)
 		} else {
 			$output = getSpaces($param);
 		}
+	}
+	if(strcmp($command, "keywords") == 0)
+	{
+		$output = getKeywords();
 	}
 
 	header("Content-type: application/json");
