@@ -22,7 +22,9 @@ Import file downloaded from GeoFabrik into the PostGreSQL database using OSM2PGS
 Create Keywords for Polygons
 ----------------------------
 
-Import the file 'create_tables_based_on_existing_data.sql' into the PostGreSQL database.
+Import the files in the './sql' directory into the PostGreSQL database.
+psql -d [database] -f [filename]
+Do polygons first, then keywords.
 
 Install web service
 -------------------
