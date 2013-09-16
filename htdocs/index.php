@@ -143,6 +143,7 @@ function render($f3, $params)
 
 	$command = $params['command'];
 	$param = $params['param'];
+	$output = array();
 
 	if(strcmp($command, "areas") == 0)
 	{
@@ -161,10 +162,11 @@ function render($f3, $params)
 			}
 		}
 
-		elseif(($array_key_exists("distance", $_REQUEST) == 0) & ($array_key_exists("centre", $_REQUEST) == 0))
+		elseif((array_key_exists("distance", $_REQUEST)) & (array_key_exists("centre", $_REQUEST)))
 		{
+
 			$sll = $_REQUEST['centre'];
-			$dist = (float) $_REQUEST['dist'];
+			$dist = (float) $_REQUEST['distance'];
 			if(strlen($sll) == 0)
 			{
 				$ll = array();
@@ -175,6 +177,7 @@ function render($f3, $params)
 			{
 				$output = getSpacesFromPoint($param, $ll[1], $ll[0], $dist);
 			}
+
 		}
 
 	}
