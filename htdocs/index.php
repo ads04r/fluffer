@@ -161,7 +161,7 @@ function render($f3, $params)
 			}
 		}
 
-		elseif(($array_key_exists("distance"), $_REQUEST) & ($array_key_exists("centre"), $_REQUEST))
+		elseif(($array_key_exists("distance", $_REQUEST) == 0) & ($array_key_exists("centre", $_REQUEST) == 0))
 		{
 			$sll = $_REQUEST['centre'];
 			if(strlen($sll) == 0)
