@@ -12,7 +12,40 @@ function getSpacesFromPoint($keyword, $lat, $lon, $dist)
 {
 	global $config;
 
-	return array();
+	$query = "select name, ST_AsGeoJSON(way) as json from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where way && expand(transform(PointFromText('POINT(" . $lon . " " . $lat . ")', 4269),32661), " . $dist . ") AND distance(transform(PointFromText('POINT(" . $lon . " " . $lat . ")', 4269),32661),way) < " . $dist . ";";
+
+	$link = pg_connect("host=" . $config['database']['host'] . " dbname=" . $config['database']['database'] . " user=" . $config['database']['username'] . " password=" . $config['database']['password']);
+	$result = pg_exec($link, $query);
+	$numrows = pg_numrows($result);
+
+	$features = array();
+
+	for($ri = 0; $ri < $numrows; $ri++)
+	{
+		$feature = array();
+		$properties = array();
+
+		$row = pg_fetch_array($result, $ri);
+		$name = "";
+		$name = @$row['name'];
+		if(strlen($name) > 0)
+		{
+			$properties['name'] = $name;
+		}
+		$properties['keyword'] = $keyword;
+		$json = json_decode($row['json']);
+		$feature['type'] = "Feature";
+		$feature['geometry'] = $json;
+		$feature['properties'] = $properties;
+
+		$features[] = $feature;
+	}
+
+	$list = array();
+	$list['type'] = "FeatureCollection";
+	$list['features'] = $features;
+
+	return($list);
 }
 
 function getSpacesWithBoundingBox($keyword, $lat1, $lon1, $lat2, $lon2)
