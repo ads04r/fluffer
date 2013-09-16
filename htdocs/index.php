@@ -164,6 +164,7 @@ function render($f3, $params)
 		elseif(($array_key_exists("distance", $_REQUEST) == 0) & ($array_key_exists("centre", $_REQUEST) == 0))
 		{
 			$sll = $_REQUEST['centre'];
+			$dist = (float) $_REQUEST['dist'];
 			if(strlen($sll) == 0)
 			{
 				$ll = array();
@@ -172,7 +173,7 @@ function render($f3, $params)
 			}
 			if(count($ll) == 2)
 			{
-				$output = getSpacesFromPoint($param, $ll[1], $ll[0]);
+				$output = getSpacesFromPoint($param, $ll[1], $ll[0], $dist);
 			}
 		}
 
