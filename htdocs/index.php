@@ -12,7 +12,7 @@ function getSpacesFromPoint($keyword, $lat, $lon, $dist)
 {
 	global $config;
 
-	$query = "select name, ST_AsGeoJSON(way) as json from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where way && expand(transform(PointFromText('POINT(" . $lon . " " . $lat . ")', 4269),32661), " . $dist . ") AND distance(transform(PointFromText('POINT(" . $lon . " " . $lat . ")', 4269),32661),way) < " . $dist . ";";
+	$query = "select name, ST_AsGeoJSON(way) as json from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where (st_distance(ST_GeographyFromText('SRID=4326;POINT(" . $lon . " " . $lat . ")'),way::geography) < " . $dist . ");";
 
 	$link = pg_connect("host=" . $config['database']['host'] . " dbname=" . $config['database']['database'] . " user=" . $config['database']['username'] . " password=" . $config['database']['password']);
 	$result = pg_exec($link, $query);
