@@ -135,9 +135,9 @@ function render($f3, $params)
 	}
 
 	$bounding = "";
-	if(array_key_exists("bounding", $_POST))
+	if(array_key_exists("bounding", $_REQUEST))
 	{
-		$bounding = $_POST['bounding'];
+		$bounding = $_REQUEST['bounding'];
 	}
 
 	if(strlen($bounding) == 0)
@@ -175,8 +175,7 @@ function render($f3, $params)
 // Routes
 
 $f3->route("GET /", function($f3) { $f3->error(404); });
-$f3->route("GET /@command/@param.@format", 'render');
-$f3->route("POST /@command/@param.@format", 'render');
+$f3->route("GET|POST /@command/@param.@format", 'render');
 $f3->route("GET *", function($f3) { $f3->error(404); });
 
 $f3->run();
