@@ -134,12 +134,17 @@ function render($f3, $params)
 		exit();
 	}
 
-	$post = file_get_contents("php://input");
-	if(strlen($post) == 0)
+	$bounding = "";
+	if(array_key_exists("bounding", $_POST))
+	{
+		$bounding = $_POST['bounding'];
+	}
+
+	if(strlen($bounding) == 0)
 	{
 		$bb = array();
 	} else {
-		$bb = explode(",", $post);
+		$bb = explode(",", $bounding);
 	}
 	if(count($bb) != 4)
 	{
