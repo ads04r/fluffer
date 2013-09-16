@@ -8,6 +8,13 @@ $f3->set('page_template', "");
 
 // Data functions
 
+function getSpacesFromPoint($keyword, $lat, $lon, $dist)
+{
+	global $config;
+
+	return array();
+}
+
 function getSpacesWithBoundingBox($keyword, $lat1, $lon1, $lat2, $lon2)
 {
 	global $config;
@@ -134,35 +141,43 @@ function render($f3, $params)
 		exit();
 	}
 
-	$bounding = "";
-	if(array_key_exists("bounding", $_REQUEST))
-	{
-		$bounding = $_REQUEST['bounding'];
-	}
-
-	if(strlen($bounding) == 0)
-	{
-		$bb = array();
-	} else {
-		$bb = explode(",", $bounding);
-	}
-	if(count($bb) != 4)
-	{
-		$bb = array();
-	}
-
 	$command = $params['command'];
 	$param = $params['param'];
-	$output = array();
+
 	if(strcmp($command, "areas") == 0)
 	{
-		if(count($bb) == 4)
+		if(array_key_exists("bounding", $_REQUEST))
 		{
-			$output = getSpacesWithBoundingBox($param, $bb[1], $bb[0], $bb[3], $bb[2]);
-		} else {
-			$output = getSpaces($param);
+			$bounding = $_REQUEST['bounding'];
+			if(strlen($bounding) == 0)
+			{
+				$bb = array();
+			} else {
+				$bb = explode(",", $bounding);
+			}
+			if(count($bb) == 4)
+			{
+				$output = getSpacesWithBoundingBox($param, $bb[1], $bb[0], $bb[3], $bb[2]);
+			}
 		}
+
+		elseif(($array_key_exists("distance"), $_REQUEST) & ($array_key_exists("centre"), $_REQUEST))
+		{
+			$sll = $_REQUEST['centre'];
+			if(strlen($sll) == 0)
+			{
+				$ll = array();
+			} else {
+				$ll = explode(",", $sll);
+			}
+			if(count($ll) == 2)
+			{
+				$output = getSpacesFromPoint($param, $ll[1], $ll[0]);
+			}
+		}
+
 	}
+
 	if(strcmp($command, "keywords") == 0)
 	{
 		$output = getKeywords();
