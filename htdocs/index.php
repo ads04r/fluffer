@@ -12,7 +12,8 @@ function getSpacesFromPoint($keyword, $lat, $lon, $dist)
 {
 	global $config;
 
-	$query = "select name, ST_AsGeoJSON(way) as json from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where (st_distance(ST_GeographyFromText('SRID=4326;POINT(" . $lon . " " . $lat . ")'),way::geography) < " . $dist . ");";
+	//$query = "select name, ST_AsGeoJSON(way) as json from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where (st_distance(ST_GeographyFromText('SRID=4326;POINT(" . $lon . " " . $lat . ")'),way::geography) < " . $dist . ");";
+	$query = "select name from (select fluff_polygons.name, way from fluff_keywords, fluff_polygons where fluff_keywords.osm_id=fluff_polygons.osm_id and keyword='" . $keyword . "') as sq where way && ST_Expand(ST_GeomFromEWKT('SRID=4326;POINT(" . $lon . " " . $lat . ")'), (" . $dist . " / (40075000/360)));";
 
 	$link = pg_connect("host=" . $config['database']['host'] . " dbname=" . $config['database']['database'] . " user=" . $config['database']['username'] . " password=" . $config['database']['password']);
 	$result = pg_exec($link, $query);
