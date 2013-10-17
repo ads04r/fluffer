@@ -1,7 +1,7 @@
 drop table fluff_keywords;
 
 create table fluff_keywords as 
-select osm_id, 'pub' as keyword from planet_osm_polygon where amenity in ('pub')
+select osm_id, 'pub' as keyword from planet_osm_polygon where amenity in ('pub','bar')
 union 
 select osm_id, 'placeofworship' as keyword from planet_osm_polygon where amenity in ('place_of_worship')
 union 
